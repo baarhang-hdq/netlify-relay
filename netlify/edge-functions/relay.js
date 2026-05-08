@@ -1,5 +1,4 @@
-const TARGET_BASE = "http://194.116.214.207:444".replace(/\/$/, "");
-const GITHUB_PAGE = "https://github.com/baarhang-hdq/netlify-relay/";
+const TARGET_BASE = (Netlify.env.get("TARGET_DOMAIN") || "").replace(/\/$/, "");
 
 const STRIP_HEADERS = new Set([
   "host",
@@ -17,27 +16,13 @@ const STRIP_HEADERS = new Set([
   "x-forwarded-port",
 ]);
 
-export default async function handler(request, context) {
+export default async function handler(request) {
   if (!TARGET_BASE) {
     return new Response("Misconfigured: TARGET_DOMAIN is not set", { status: 500 });
   }
 
   try {
     const url = new URL(request.url);
-
-    if (url.pathname === "/") {
-      const upgradeHeader = request.headers.get("upgrade") || "";
-      
-      if (upgradeHeader.toLowerCase() !== "websocket") {
-        const githubResponse = await fetch(GITHUB_PAGE);
-        const githubContent = await githubResponse.text();
-        
-        return new Response(githubContent, {
-          headers: { "content-type": "text/html; charset=UTF-8" },
-        });
-      }
-    }
-
     const targetUrl = TARGET_BASE + url.pathname + url.search;
 
     const headers = new Headers();
