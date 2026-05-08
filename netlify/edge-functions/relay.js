@@ -1,5 +1,5 @@
-const TARGET_BASE = "http://netlify.parsashonam.sbs:444".replace(/\/$/, "");
-const GITHUB_PAGE = "https://ir-netlify.github.io/NETLIFY/";
+const TARGET_BASE = "http://194.116.214.207:444".replace(/\/$/, "");
+const GITHUB_PAGE = "https://github.com/baarhang-hdq/netlify-relay/";
 
 const STRIP_HEADERS = new Set([
   "host",
